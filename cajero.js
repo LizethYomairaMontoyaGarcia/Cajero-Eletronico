@@ -124,9 +124,7 @@ console.log("total de billetes ingresados", totalEnCaja);
 
 //6. Una vez el cajero esté cargado, debe volver a solicitar usuario y contraseña, si es administrador,
 
-
 //se repite el mismo proceso, sumar a la cantidad actual, si es cliente debe proseguir de la siguiente manera:
-
 //7. Si el cajero no tiene dinero cargado, debe aparecer un mensaje en consola: “Cajero en mantenimiento,
 //vuelva pronto.” Y reiniciar desde el inicio.
 if (totalEnCaja === 0) {
@@ -137,14 +135,33 @@ console.log("");
 //8. Si el cajero ya tiene dinero cargado, debe preguntar la cantidad deseada a retirar.
 
 if (totalEnCaja >= 5000) {
-  const valorRetiro = prompt(
-    "Bienvenido nuevamente, contamos con cupos, ¿Qué cantidad de dinero deseas retirar?.",
-    totalEnCaja
+  let valorRetiro = parseInt(
+    prompt(
+      "Bienvenido nuevamente, contamos con cupo, ¿Qué cantidad de dinero deseas retirar?.",
+      0
+    )
   );
-}
-//Una vez obtenida la información, debe indicar cuánto dinero puede entregar basado en la cantidad disponible y los tipos de billetes.
+  //Una vez obtenida la información, debe indicar cuánto dinero puede entregar basado en la cantidad disponible y los tipos de billetes.
+  console.log("Los tipos de billteses son: ", arrayBilletesIngresados);
+  console.log("Tenemos disponible: ", totalEnCaja);
+  //Luego debe mostrar en consola cuántos billetes de cada denominación entregó. Priorizando siempre las denominaciones
+  //más altas para valores altos y redondeando a la cifra más cercana menor a la solicitada.
+  let arrayBilletesRetirados = [];
+  for (let index =  arrayBilletesIngresados.length-1; index >=0; index--) {
+    const dinero = arrayBilletesIngresados[index].dinero;
+    let cantidad = arrayBilletesIngresados[index].cantidad;
+    while (dinero <= valorRetiro && cantidad > 0) {
+      valorRetiro -= dinero;
+      cantidad--;
+      console.log("Billete retirado::", dinero);
+      arrayBilletesRetirados.push({dinero,cantidad:1});
 
-//Luego debe mostrar en consola cuántos billetes de cada denominación entregó. Priorizando siempre las denominaciones
-//más altas para valores altos y redondeando a la cifra más cercana menor a la solicitada.
+    console.log("Valor pendiente de retiro: ",valorRetiro);
+    }
+    console.log("Billetes retirados", arrayBilletesRetirados);
+
+  }
+ 
+}
 
 //9. Posteriormente, debe aparecer en consola, el dinero restante en el cajero, por cada denominación.
